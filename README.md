@@ -5,10 +5,18 @@ Visual dashboard for the Cold Lava agent fleet skill library.
 ## Features
 
 - 🔍 **Search & Filter** — Find skills by name, description, or agent
-- 📊 **Visual Cards** — See all skills at a glance
+- 📊 **Visual Cards** — See all skills at a glance with corner brackets
 - 📖 **Detail View** — Click any skill to view full SKILL.md and README.md
-- 🎨 **Beautiful UI** — Purple gradient theme matching Cold Lava branding
+- 🎨 **Cold Lava Design** — Cyan accent, dark surfaces, grain overlay, Inter + JetBrains Mono
 - ⚡ **Fast** — Static generation with Next.js 16
+
+## Design Standard
+
+Follows the **Cold Lava Design Standard** exactly:
+- **Colors:** Dark background (#030305), cyan accent (#06B6D4), opacity scale
+- **Fonts:** Inter (body/headings), JetBrains Mono (labels/data/nav)
+- **UI:** Corner brackets on cards (signature pattern), grain overlay, 960px max-width
+- **Typography:** Tight headings, wide labels, mono for system elements
 
 ## Tech Stack
 
