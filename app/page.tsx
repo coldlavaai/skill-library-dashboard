@@ -58,36 +58,35 @@ export default function Home() {
   return (
     <main className="min-h-screen relative">
       {/* HUD - Time Display */}
-      <div className="fixed top-8 right-8 z-50 text-right pointer-events-none">
-        <div className="mono-label text-white/40 flex items-center justify-end gap-3">
+      <div className="fixed top-10 right-10 z-50 text-right pointer-events-none">
+        <div className="mono-label text-white/50 flex items-center justify-end gap-3">
           <span>LONDON</span>
-          <span className="text-white/20">•</span>
-          <span className="text-white/50">{formatTime(time)}</span>
+          <span className="text-white/25">•</span>
+          <span className="text-white/65">{formatTime(time)}</span>
         </div>
-        <div className="mono-small text-white/25 mt-1">{formatDate(time)}</div>
+        <div className="mono-small text-white/30 mt-1.5">{formatDate(time)}</div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-[960px] mx-auto px-8 py-32">
+      <div className="max-w-[960px] mx-auto px-8 py-32 animate-fadeIn">
         {/* Hero Section */}
-        <section className="mb-24">
-          <div className="label-line mb-8 text-base">
+        <section className="mb-32">
+          <div className="label-line mb-10">
             COLD LAVA FLEET
           </div>
           
-          <h1 className="text-8xl font-extrabold mb-8 tracking-tight leading-[0.95]">
-            <span className="text-white">Skill</span>{' '}
-            <span className="text-white/30 font-light">Library</span>
+          <h1 className="text-9xl font-extrabold mb-10 tracking-tighter leading-[0.9] bg-gradient-to-b from-white to-white/70 bg-clip-text text-transparent">
+            Skill<span className="block text-white/30 font-light mt-2">Library</span>
           </h1>
           
-          <p className="text-2xl text-white/60 font-light leading-relaxed max-w-2xl mb-8">
+          <p className="text-2xl text-white/65 font-light leading-relaxed max-w-2xl mb-10">
             Packaged skills for the agent fleet. Progressive disclosure,
             composability, tested patterns. Every skill follows the standard.
           </p>
 
-          <div className="inline-flex items-center gap-4 bg-cyan/8 border border-cyan/25 px-8 py-4 mt-6">
-            <div className="w-2 h-2 bg-cyan rounded-full"></div>
-            <span className="mono-label text-white/70 tracking-wider text-base">
+          <div className="badge-premium inline-flex">
+            <div className="badge-dot"></div>
+            <span className="tracking-wider">
               {skills.length} SKILL{skills.length !== 1 ? 'S' : ''} AVAILABLE
             </span>
           </div>
@@ -97,37 +96,40 @@ export default function Home() {
         <div className="section-divider"></div>
 
         {/* Search Section */}
-        <section className="mb-16">
-          <div className="label-line mb-6 text-base">
-            SEARCH
+        <section className="mb-20 animate-slideUp">
+          <div className="label-line mb-8">
+            SEARCH & FILTER
           </div>
-          <div className="relative corner-brackets">
+          <div className="relative brackets-premium">
             <input
               type="search"
-              placeholder="Filter by name, description, or agent..."
+              placeholder="Search by name, description, or agent..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full px-8 py-5 text-lg focus:outline-none"
+              className="w-full px-8 py-6 text-lg focus:outline-none rounded-lg"
             />
           </div>
         </section>
 
         {/* Loading State */}
         {loading && (
-          <div className="text-center py-32">
-            <div className="mono-label text-cyan/50 tracking-widest animate-pulse text-xl">
+          <div className="text-center py-40 animate-scaleIn">
+            <div className="mono-label text-cyan/60 tracking-widest text-xl mb-6">
               LOADING SKILLS...
+            </div>
+            <div className="w-64 h-1 mx-auto bg-white/5 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-cyan/40 to-cyan/80 rounded-full animate-pulse"></div>
             </div>
           </div>
         )}
 
         {/* Empty State */}
         {!loading && skills.length === 0 && (
-          <div className="text-center py-32">
-            <div className="arch-box inline-block px-20 py-16 arch-box-tr arch-box-bl">
-              <div className="mono-label text-cyan/40 mb-6 text-lg tracking-widest">LIBRARY EMPTY</div>
-              <p className="text-3xl text-white/70 mb-4 font-light">No skills deployed yet</p>
-              <p className="mono-small text-white/40 mt-6 text-base tracking-wider">
+          <div className="text-center py-40 animate-scaleIn">
+            <div className="glass-panel inline-block px-24 py-20 rounded-2xl">
+              <div className="mono-label text-cyan/50 mb-8 text-xl tracking-widest">LIBRARY EMPTY</div>
+              <p className="text-4xl text-white/75 mb-6 font-light leading-tight">No skills<br />deployed yet</p>
+              <p className="mono-small text-white/45 mt-8 text-base tracking-wider">
                 SKILLS WILL APPEAR WHEN ADDED TO THE LIBRARY
               </p>
             </div>
@@ -137,10 +139,10 @@ export default function Home() {
         {/* Skills Grid */}
         {!loading && filteredSkills.length > 0 && (
           <>
-            <div className="label-line mb-8 text-base">
+            <div className="label-line mb-10">
               AVAILABLE SKILLS
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
               {filteredSkills.map((skill) => (
                 <SkillCard
                   key={skill.name}
@@ -154,15 +156,15 @@ export default function Home() {
 
         {/* No Results */}
         {!loading && skills.length > 0 && filteredSkills.length === 0 && (
-          <div className="text-center py-32">
-            <div className="arch-box inline-block px-20 py-16">
-              <div className="mono-label text-cyan/50 mb-6 text-lg tracking-widest">NO MATCHES</div>
-              <p className="text-2xl text-white/60 font-light mb-8">
-                No skills match your search
+          <div className="text-center py-40 animate-scaleIn">
+            <div className="glass-panel inline-block px-24 py-20 rounded-2xl">
+              <div className="mono-label text-cyan/60 mb-8 text-xl tracking-widest">NO MATCHES</div>
+              <p className="text-3xl text-white/70 font-light mb-10 leading-tight">
+                No skills match<br />your search
               </p>
               <button
                 onClick={() => setSearch('')}
-                className="px-8 py-4 bg-cyan/10 border border-cyan/25 hover:bg-cyan/15 transition-colors mono-label text-white/70 text-base tracking-wider"
+                className="badge-premium hover:scale-105 transition-transform cursor-pointer"
               >
                 CLEAR SEARCH
               </button>
@@ -180,18 +182,18 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-white/8 py-8 mt-32">
+      <footer className="border-t border-white/8 py-10 mt-40">
         <div className="max-w-[960px] mx-auto px-8">
           <div className="flex items-center justify-between">
-            <div className="mono-small text-white/25 tracking-widest">
+            <div className="mono-small text-white/30 tracking-widest">
               COLD LAVA AI © {new Date().getFullYear()}
             </div>
-            <div className="flex items-center gap-6 mono-small text-white/25 tracking-wider">
+            <div className="flex items-center gap-8 mono-small text-white/30 tracking-wider">
               <a 
                 href="https://github.com/coldlavaai/skill-library-data" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="hover:text-cyan/70 transition-colors"
+                className="hover:text-cyan/80 transition-colors"
               >
                 GITHUB
               </a>
@@ -200,7 +202,7 @@ export default function Home() {
                 href="https://coldlava.ai" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="hover:text-cyan/70 transition-colors"
+                className="hover:text-cyan/80 transition-colors"
               >
                 COLDLAVA.AI
               </a>

@@ -33,52 +33,52 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 md:p-8 animate-fadeIn"
+      className="fixed inset-0 bg-black/90 backdrop-blur-2xl z-50 flex items-center justify-center p-4 md:p-12 animate-fadeIn"
       onClick={onClose}
     >
       <div
-        className="card-elevated corner-brackets-lg w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col animate-slideUp"
+        className="glass-panel w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col rounded-3xl animate-scaleIn shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="border-b border-white/5 p-8 flex items-start justify-between flex-shrink-0">
+        <div className="border-b border-white/10 p-12 flex items-start justify-between flex-shrink-0 bg-gradient-to-b from-white/5 to-transparent">
           <div className="flex-1">
-            <div className="label-line mb-4">
+            <div className="label-line mb-8">
               SKILL DETAILS
             </div>
-            <h2 className="text-5xl font-bold text-white mb-6 tracking-tight leading-none">
+            <h2 className="text-6xl font-bold text-white mb-10 tracking-tight leading-none bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent">
               {skill.name}
             </h2>
             
             {/* Metadata Row */}
             <div className="flex flex-wrap items-center gap-4">
               {/* Status Badge */}
-              <div className="inline-flex items-center gap-2 bg-cyan/10 border border-cyan/25 px-4 py-2">
-                <div className="w-1.5 h-1.5 bg-cyan rounded-full"></div>
-                <span className="mono-small text-cyan-dim tracking-wider">
+              <div className="badge-premium">
+                <div className="badge-dot"></div>
+                <span className="tracking-wider">
                   {skill.status.toUpperCase()}
                 </span>
               </div>
 
               {/* Used By Tags */}
               {skill.usedBy.length > 0 && (
-                <>
-                  <span className="mono-small text-white/30">USED BY:</span>
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="mono-label text-white/40 text-sm">USED BY:</span>
                   {skill.usedBy.map((agent) => (
                     <span
                       key={agent}
-                      className="pill-tag text-xs"
+                      className="pill-tag"
                     >
                       {agent}
                     </span>
                   ))}
-                </>
+                </div>
               )}
             </div>
 
             {/* Features */}
             {(skill.hasScripts || skill.hasReferences || skill.hasTemplates) && (
-              <div className="flex gap-4 mono-small text-cyan-faint mt-4 pt-4 border-t border-white/5">
+              <div className="flex gap-6 mono-label text-cyan-faint mt-8 pt-8 border-t border-white/10 text-sm tracking-wider">
                 {skill.hasScripts && <span>→ SCRIPTS</span>}
                 {skill.hasReferences && <span>→ REFERENCES</span>}
                 {skill.hasTemplates && <span>→ TEMPLATES</span>}
@@ -89,7 +89,7 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="text-white/30 hover:text-cyan transition-colors text-3xl leading-none font-light ml-8 flex-shrink-0"
+            className="text-white/40 hover:text-cyan-bright transition-all duration-300 text-4xl leading-none font-light ml-12 flex-shrink-0 hover:scale-110 hover:rotate-90"
             aria-label="Close"
           >
             ✕
@@ -97,31 +97,31 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
         </div>
 
         {/* Content */}
-        <div className="overflow-y-auto p-8 flex-1">
+        <div className="overflow-y-auto p-12 flex-1">
           {skill.skillMdContent ? (
             <>
-              <div className="label-line mb-6">
+              <div className="label-line mb-8">
                 SKILL.MD
               </div>
-              <div className="card corner-brackets p-8 mb-12 skill-markdown">
+              <div className="card-premium brackets-premium p-10 mb-16 skill-markdown rounded-2xl">
                 <ReactMarkdown>
                   {skill.skillMdContent}
                 </ReactMarkdown>
               </div>
             </>
           ) : (
-            <div className="arch-box arch-box-tr arch-box-bl p-12 text-center mb-12">
-              <div className="mono-label text-cyan/30 mb-2">NO SKILL.MD FOUND</div>
-              <p className="text-white/40 italic">This skill is missing its main instruction file</p>
+            <div className="glass-panel p-16 text-center mb-16 rounded-2xl">
+              <div className="mono-label text-cyan/40 mb-6 text-lg tracking-widest">NO SKILL.MD FOUND</div>
+              <p className="text-white/50 italic text-xl">This skill is missing its main instruction file</p>
             </div>
           )}
 
           {skill.readmeContent && (
             <>
-              <div className="label-line mb-6 mt-12">
+              <div className="label-line mb-8 mt-16">
                 README.MD
               </div>
-              <div className="card corner-brackets p-8 skill-markdown">
+              <div className="card-premium brackets-premium p-10 skill-markdown rounded-2xl">
                 <ReactMarkdown>
                   {skill.readmeContent}
                 </ReactMarkdown>
@@ -130,9 +130,9 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
           )}
 
           {/* Close hint at bottom */}
-          <div className="mt-12 pt-8 border-t border-white/5 text-center">
-            <p className="mono-small text-white/20 tracking-wider">
-              PRESS ESC OR CLICK OUTSIDE TO CLOSE
+          <div className="mt-20 pt-12 border-t border-white/10 text-center">
+            <p className="mono-small text-white/25 tracking-wider">
+              PRESS <kbd className="px-3 py-1.5 bg-white/10 rounded-md mx-2 text-white/40">ESC</kbd> OR CLICK OUTSIDE TO CLOSE
             </p>
           </div>
         </div>
