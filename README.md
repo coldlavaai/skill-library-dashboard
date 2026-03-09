@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Skill Library Dashboard
 
-## Getting Started
+Visual dashboard for the Cold Lava agent fleet skill library.
 
-First, run the development server:
+## Features
+
+- 🔍 **Search & Filter** — Find skills by name, description, or agent
+- 📊 **Visual Cards** — See all skills at a glance
+- 📖 **Detail View** — Click any skill to view full SKILL.md and README.md
+- 🎨 **Beautiful UI** — Purple gradient theme matching Cold Lava branding
+- ⚡ **Fast** — Static generation with Next.js 16
+
+## Tech Stack
+
+- **Next.js 16** with App Router
+- **TypeScript**
+- **Tailwind CSS**
+- **React Markdown** for rendering skill documentation
+
+## Deployment
+
+### To Vercel
+
+1. Go to [vercel.com/new](https://vercel.com/new)
+2. Import **coldlavaai/skill-library-dashboard** from GitHub
+3. Configure:
+   - Framework Preset: Next.js
+   - Root Directory: ./
+   - Build Command: `npm run build`
+   - Output Directory: `.next`
+4. Deploy!
+
+**Important:** The API route reads from `/home/moltbot/skill-library/` on the server. Make sure the deployment environment has access to this path OR update `SKILL_LIBRARY_PATH` in `app/api/skills/route.ts` to point to a mounted volume or environment variable.
+
+### Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How It Works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **API Route** (`/api/skills`) reads all skill directories from `/home/moltbot/skill-library/`
+2. **Main Page** fetches skills from API and displays them in a searchable grid
+3. **Skill Cards** show summary info (name, description, agents, status)
+4. **Skill Modal** displays full SKILL.md and README.md content when you click a card
 
-## Learn More
+## Updating Skills
 
-To learn more about Next.js, take a look at the following resources:
+The dashboard auto-reads from the skill library directory. To add/update skills:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Add or modify skills in `/home/moltbot/skill-library/`
+2. Update `/home/moltbot/skill-library/INDEX.md` (optional, for metadata)
+3. Refresh the dashboard — changes appear immediately
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+No rebuild or redeploy needed (unless running static generation).
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
