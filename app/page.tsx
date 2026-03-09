@@ -42,52 +42,58 @@ export default function Home() {
   );
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <div className="container mx-auto px-4 py-8">
+    <main className="min-h-screen">
+      <div className="max-w-content mx-auto px-8 py-24">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-white mb-4">
-            ⚒️ Skill Library
+        <div className="mb-16">
+          <div className="mono-label text-cyan/40 mb-4 flex items-center gap-4">
+            <div className="w-8 h-px bg-cyan/20"></div>
+            COLD LAVA FLEET
+          </div>
+          <h1 className="text-7xl font-extrabold mb-4 tracking-tight leading-tight">
+            <span className="text-white">Skill</span>{' '}
+            <span className="text-white/35 font-light">Library</span>
           </h1>
-          <p className="text-xl text-purple-200">
-            Cold Lava Agent Fleet — Packaged Skills
+          <p className="text-xl text-muted font-light leading-relaxed max-w-2xl">
+            Packaged skills for the agent fleet. Progressive disclosure,
+            composability, tested patterns.
           </p>
-          <p className="text-sm text-purple-300 mt-2">
-            {skills.length} skill{skills.length !== 1 ? 's' : ''} available
-          </p>
+          <div className="mt-4 mono-small text-cyan/45">
+            {skills.length} SKILL{skills.length !== 1 ? 'S' : ''} AVAILABLE
+          </div>
         </div>
 
         {/* Search Bar */}
-        <div className="max-w-2xl mx-auto mb-8">
+        <div className="mb-12">
           <input
             type="text"
             placeholder="Search skills, agents, or descriptions..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full px-6 py-4 rounded-lg bg-white/10 backdrop-blur-sm border border-purple-400/30 text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-6 py-4 card corner-brackets rounded-none text-white placeholder:text-white/30 focus:outline-none focus:border-cyan/40 transition-colors"
           />
         </div>
 
         {/* Loading State */}
         {loading && (
-          <div className="text-center text-purple-200 text-xl">
-            Loading skills...
+          <div className="text-center text-white/50 mono-label py-16">
+            LOADING...
           </div>
         )}
 
         {/* Empty State */}
         {!loading && skills.length === 0 && (
-          <div className="text-center text-purple-200 text-xl">
-            <p>No skills in library yet.</p>
-            <p className="text-sm mt-2 text-purple-300">
-              Skills will appear here once added to /home/moltbot/skill-library/
+          <div className="text-center py-16">
+            <p className="text-2xl text-white/60 mb-2">No skills in library yet</p>
+            <p className="mono-small text-cyan/40">
+              SKILLS WILL APPEAR WHEN ADDED TO /home/moltbot/skill-library/
             </p>
           </div>
         )}
 
         {/* Skills Grid */}
         {!loading && filteredSkills.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredSkills.map((skill) => (
               <SkillCard
                 key={skill.name}
@@ -100,8 +106,8 @@ export default function Home() {
 
         {/* No Results */}
         {!loading && skills.length > 0 && filteredSkills.length === 0 && (
-          <div className="text-center text-purple-200 text-xl">
-            No skills match your search.
+          <div className="text-center py-16">
+            <p className="text-xl text-white/50">No skills match your search</p>
           </div>
         )}
 
