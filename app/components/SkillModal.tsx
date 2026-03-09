@@ -33,42 +33,43 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/90 backdrop-blur-2xl z-50 flex items-center justify-center p-4 md:p-12 animate-fadeIn"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+      style={{ background: 'rgba(0, 0, 0, 0.85)', backdropFilter: 'blur(12px)' }}
       onClick={onClose}
     >
       <div
-        className="glass-panel w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col rounded-3xl animate-scaleIn shadow-2xl"
+        className="w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col"
+        style={{
+          background: 'rgba(0, 0, 0, 0.6)',
+          border: '1px solid rgba(6, 182, 212, 0.2)',
+          backdropFilter: 'blur(8px)',
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="border-b border-white/10 p-12 flex items-start justify-between flex-shrink-0 bg-gradient-to-b from-white/5 to-transparent">
+        <div className="p-8 flex items-start justify-between flex-shrink-0" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
           <div className="flex-1">
-            <div className="label-line mb-8">
+            <div className="label mb-4">
               SKILL DETAILS
             </div>
-            <h2 className="text-6xl font-bold text-white mb-10 tracking-tight leading-none bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent">
+            <h2 className="text-5xl font-bold text-white mb-6 leading-tight" style={{ letterSpacing: '-0.02em' }}>
               {skill.name}
             </h2>
             
             {/* Metadata Row */}
             <div className="flex flex-wrap items-center gap-4">
               {/* Status Badge */}
-              <div className="badge-premium">
-                <div className="badge-dot"></div>
-                <span className="tracking-wider">
-                  {skill.status.toUpperCase()}
-                </span>
+              <div className="investment">
+                <div className="dot"></div>
+                <span>{skill.status.toUpperCase()}</span>
               </div>
 
               {/* Used By Tags */}
               {skill.usedBy.length > 0 && (
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="mono-label text-white/40 text-sm">USED BY:</span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-xs font-mono uppercase tracking-wider" style={{ color: 'rgba(255, 255, 255, 0.35)', letterSpacing: '0.1em' }}>USED BY:</span>
                   {skill.usedBy.map((agent) => (
-                    <span
-                      key={agent}
-                      className="pill-tag"
-                    >
+                    <span key={agent} className="pill-tag text-xs">
                       {agent}
                     </span>
                   ))}
@@ -78,7 +79,11 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
 
             {/* Features */}
             {(skill.hasScripts || skill.hasReferences || skill.hasTemplates) && (
-              <div className="flex gap-6 mono-label text-cyan-faint mt-8 pt-8 border-t border-white/10 text-sm tracking-wider">
+              <div className="flex gap-4 mt-6 pt-6 text-xs font-mono uppercase tracking-wider" style={{ 
+                borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+                color: 'rgba(6, 182, 212, 0.5)',
+                letterSpacing: '0.1em'
+              }}>
                 {skill.hasScripts && <span>→ SCRIPTS</span>}
                 {skill.hasReferences && <span>→ REFERENCES</span>}
                 {skill.hasTemplates && <span>→ TEMPLATES</span>}
@@ -89,7 +94,8 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="text-white/40 hover:text-cyan-bright transition-all duration-300 text-4xl leading-none font-light ml-12 flex-shrink-0 hover:scale-110 hover:rotate-90"
+            className="text-3xl leading-none font-light ml-8 flex-shrink-0"
+            style={{ color: 'rgba(255, 255, 255, 0.35)' }}
             aria-label="Close"
           >
             ✕
@@ -97,31 +103,33 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
         </div>
 
         {/* Content */}
-        <div className="overflow-y-auto p-12 flex-1">
+        <div className="overflow-y-auto p-8 flex-1">
           {skill.skillMdContent ? (
             <>
-              <div className="label-line mb-8">
+              <div className="label mb-6">
                 SKILL.MD
               </div>
-              <div className="card-premium brackets-premium p-10 mb-16 skill-markdown rounded-2xl">
+              <div className="card p-6 mb-12 skill-markdown">
                 <ReactMarkdown>
                   {skill.skillMdContent}
                 </ReactMarkdown>
               </div>
             </>
           ) : (
-            <div className="glass-panel p-16 text-center mb-16 rounded-2xl">
-              <div className="mono-label text-cyan/40 mb-6 text-lg tracking-widest">NO SKILL.MD FOUND</div>
-              <p className="text-white/50 italic text-xl">This skill is missing its main instruction file</p>
+            <div className="arch-box p-12 text-center mb-12">
+              <div className="corner-tr"></div>
+              <div className="corner-bl"></div>
+              <div className="label mb-4">NO SKILL.MD FOUND</div>
+              <p style={{ color: 'rgba(255, 255, 255, 0.5)' }} className="italic">This skill is missing its main instruction file</p>
             </div>
           )}
 
           {skill.readmeContent && (
             <>
-              <div className="label-line mb-8 mt-16">
+              <div className="label mb-6 mt-12">
                 README.MD
               </div>
-              <div className="card-premium brackets-premium p-10 skill-markdown rounded-2xl">
+              <div className="card p-6 skill-markdown">
                 <ReactMarkdown>
                   {skill.readmeContent}
                 </ReactMarkdown>
@@ -130,9 +138,9 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
           )}
 
           {/* Close hint at bottom */}
-          <div className="mt-20 pt-12 border-t border-white/10 text-center">
-            <p className="mono-small text-white/25 tracking-wider">
-              PRESS <kbd className="px-3 py-1.5 bg-white/10 rounded-md mx-2 text-white/40">ESC</kbd> OR CLICK OUTSIDE TO CLOSE
+          <div className="mt-12 pt-8 text-center" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}>
+            <p className="text-xs font-mono uppercase tracking-wider" style={{ color: 'rgba(255, 255, 255, 0.25)', letterSpacing: '0.1em' }}>
+              PRESS ESC OR CLICK OUTSIDE TO CLOSE
             </p>
           </div>
         </div>
