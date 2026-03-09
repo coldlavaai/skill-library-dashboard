@@ -2,45 +2,53 @@
 
 Visual dashboard for the Cold Lava agent fleet skill library.
 
+## Structure
+
+This repo contains both the dashboard app AND the skill data:
+
+```
+skill-library-dashboard/
+├── app/                    # Next.js app
+├── skills/                 # Skill library (auto-synced from server)
+│   ├── agency-templates/
+│   ├── clawdbot-core/
+│   ├── cold-lava-custom/
+│   └── INDEX.md
+└── ...
+```
+
 ## Features
 
 - 🔍 **Search & Filter** — Find skills by name, description, or agent
-- 📊 **Visual Cards** — See all skills at a glance with corner brackets
+- 📊 **Visual Cards** — Highland deck aesthetic with corner brackets
 - 📖 **Detail View** — Click any skill to view full SKILL.md and README.md
-- 🎨 **Cold Lava Design** — Cyan accent, dark surfaces, grain overlay, Inter + JetBrains Mono
-- ⚡ **Fast** — Static generation with Next.js 16
-
-## Design Standard
-
-Follows the **Cold Lava Design Standard** exactly:
-- **Colors:** Dark background (#030305), cyan accent (#06B6D4), opacity scale
-- **Fonts:** Inter (body/headings), JetBrains Mono (labels/data/nav)
-- **UI:** Corner brackets on cards (signature pattern), grain overlay, 960px max-width
-- **Typography:** Tight headings, wide labels, mono for system elements
+- 🎨 **Cold Lava Design** — Exact Highland deck patterns (cyan accent, mono labels, corner brackets)
+- ⚡ **Fast** — Reads from local `/skills/` directory at build time
 
 ## Tech Stack
 
 - **Next.js 16** with App Router
 - **TypeScript**
-- **Tailwind CSS**
+- **Tailwind CSS** + Highland deck CSS patterns
 - **React Markdown** for rendering skill documentation
 
 ## Deployment
 
-### To Vercel
+**GitHub → Vercel automatic deployment:**
+
+1. Skills are synced from `/home/moltbot/skill-library/` to this repo
+2. Push triggers automatic Vercel deployment
+3. Dashboard updates with latest skills
+
+### To Connect to Vercel
 
 1. Go to [vercel.com/new](https://vercel.com/new)
-2. Import **coldlavaai/skill-library-dashboard** from GitHub
-3. Configure:
-   - Framework Preset: Next.js
-   - Root Directory: ./
-   - Build Command: `npm run build`
-   - Output Directory: `.next`
-4. Deploy!
+2. Import **coldlavaai/skill-library-dashboard**
+3. Click Deploy
 
-**Important:** The API route reads from `/home/moltbot/skill-library/` on the server. Make sure the deployment environment has access to this path OR update `SKILL_LIBRARY_PATH` in `app/api/skills/route.ts` to point to a mounted volume or environment variable.
+Vercel will auto-deploy on every push.
 
-### Local Development
+## Local Development
 
 ```bash
 npm install
@@ -51,20 +59,30 @@ Visit http://localhost:3000
 
 ## How It Works
 
-1. **API Route** (`/api/skills`) reads all skill directories from `/home/moltbot/skill-library/`
-2. **Main Page** fetches skills from API and displays them in a searchable grid
-3. **Skill Cards** show summary info (name, description, agents, status)
-4. **Skill Modal** displays full SKILL.md and README.md content when you click a card
+1. **Skills Directory** (`/skills/`) contains all skill categories
+2. **API Route** (`/api/skills`) reads from `/skills/` at request time
+3. **Main Page** displays skills in a searchable grid
+4. **Modal** shows full SKILL.md and README.md content
 
 ## Updating Skills
 
-The dashboard auto-reads from the skill library directory. To add/update skills:
+Skills are auto-synced from the fleet server. To update:
 
-1. Add or modify skills in `/home/moltbot/skill-library/`
-2. Update `/home/moltbot/skill-library/INDEX.md` (optional, for metadata)
-3. Refresh the dashboard — changes appear immediately
+```bash
+# On the fleet server:
+~/skillforge-bot/scripts/sync-skill-library.sh
+```
 
-No rebuild or redeploy needed (unless running static generation).
+This copies skills to the repo and pushes to GitHub, triggering auto-deployment.
+
+## Design System
+
+Follows **Highland Marketing Deck** patterns exactly:
+- Colors: #030305 background, #06B6D4 cyan accent
+- Fonts: Inter (body), JetBrains Mono (labels/data)
+- Components: arch-box (4-corner brackets), card (2-corner brackets), investment badge
+- Typography: clamp() responsive sizing, negative letter-spacing on headings
+- Spacing: 6rem section padding, 960px max-width
 
 ## License
 
