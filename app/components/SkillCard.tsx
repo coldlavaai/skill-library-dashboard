@@ -16,19 +16,19 @@ interface SkillCardProps {
 export default function SkillCard({ skill, onClick }: SkillCardProps) {
   const statusStyles: Record<string, { bg: string; border: string; text: string }> = {
     active: { 
-      bg: 'rgba(6, 182, 212, 0.1)', 
-      border: 'rgba(6, 182, 212, 0.3)',
+      bg: 'rgba(6, 182, 212, 0.12)', 
+      border: 'rgba(6, 182, 212, 0.35)',
       text: '#06B6D4'
     },
     beta: { 
-      bg: 'rgba(201, 169, 98, 0.1)', 
-      border: 'rgba(201, 169, 98, 0.3)',
+      bg: 'rgba(201, 169, 98, 0.12)', 
+      border: 'rgba(201, 169, 98, 0.35)',
       text: '#C9A962'
     },
     deprecated: { 
-      bg: 'rgba(255, 255, 255, 0.05)', 
-      border: 'rgba(255, 255, 255, 0.15)',
-      text: 'rgba(255, 255, 255, 0.4)'
+      bg: 'rgba(255, 255, 255, 0.06)', 
+      border: 'rgba(255, 255, 255, 0.2)',
+      text: 'rgba(255, 255, 255, 0.5)'
     },
   };
 
@@ -37,15 +37,15 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
   return (
     <div
       onClick={onClick}
-      className="card corner-brackets p-6 hover-cyan hover-lift transition-all duration-300 cursor-pointer group"
+      className="card corner-brackets p-8 hover-cyan hover-lift transition-all duration-300 cursor-pointer group"
     >
       {/* Header */}
-      <div className="flex items-start justify-between mb-4 gap-4">
-        <h3 className="text-2xl font-bold text-white group-hover:text-cyan transition-colors leading-tight flex-1">
+      <div className="flex items-start justify-between mb-6 gap-4">
+        <h3 className="text-3xl font-bold text-white group-hover:text-cyan transition-colors leading-tight flex-1">
           {skill.name}
         </h3>
         <span
-          className="mono-tiny px-2 py-1 flex-shrink-0 tracking-widest"
+          className="mono-label px-3 py-2 flex-shrink-0 tracking-widest text-sm"
           style={{
             background: statusStyle.bg,
             border: `1px solid ${statusStyle.border}`,
@@ -57,19 +57,19 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
       </div>
 
       {/* Description */}
-      <p className="text-body text-[0.95rem] leading-relaxed mb-4 line-clamp-3">
-        {skill.description || <span className="italic text-white/30">No description available</span>}
+      <p className="text-body text-lg leading-relaxed mb-6 line-clamp-3">
+        {skill.description || <span className="italic text-white/35">No description available</span>}
       </p>
 
       {/* Used By */}
       {skill.usedBy.length > 0 && (
-        <div className="mb-4 pb-4 border-b border-white/5">
-          <p className="mono-small text-cyan-very-faint mb-2 tracking-wider">USED BY</p>
+        <div className="mb-6 pb-6 border-b border-white/8">
+          <p className="mono-label text-cyan-very-faint mb-3 tracking-wider text-sm">USED BY</p>
           <div className="flex flex-wrap gap-2">
             {skill.usedBy.map((agent) => (
               <span
                 key={agent}
-                className="pill-tag text-xs"
+                className="pill-tag text-sm"
               >
                 {agent}
               </span>
@@ -80,7 +80,7 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
 
       {/* Features */}
       {(skill.hasScripts || skill.hasReferences || skill.hasTemplates) && (
-        <div className="flex gap-4 mono-small text-cyan-faint">
+        <div className="flex gap-5 mono-label text-cyan-faint text-sm tracking-wider">
           {skill.hasScripts && <span>→ SCRIPTS</span>}
           {skill.hasReferences && <span>→ REFS</span>}
           {skill.hasTemplates && <span>→ TEMPLATES</span>}
@@ -88,7 +88,7 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
       )}
 
       {/* Click indicator */}
-      <div className="mt-4 pt-4 border-t border-white/5 mono-tiny text-white/20 group-hover:text-cyan/40 transition-colors">
+      <div className="mt-6 pt-6 border-t border-white/8 mono-small text-white/30 group-hover:text-cyan/50 transition-colors tracking-wider">
         CLICK TO VIEW DETAILS →
       </div>
     </div>
