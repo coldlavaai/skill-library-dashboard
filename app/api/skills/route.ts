@@ -6,6 +6,7 @@ const SKILLS_DIR = path.join(process.cwd(), 'skills');
 
 interface Skill {
   name: string;
+  category: string;
   description: string;
   usedBy: string[];
   status: string;
@@ -16,69 +17,96 @@ interface Skill {
   readmeContent?: string;
 }
 
-export async function GET() {
-  try {
-    const skills: Skill[] = [];
-    
-    // Read all directories in skills folder
-    if (!fs.existsSync(SKILLS_DIR)) {
-      return NextResponse.json({ skills: [], count: 0 });
-    }
-
-    const entries = fs.readdirSync(SKILLS_DIR, { withFileTypes: true });
-    
-    for (const entry of entries) {
-      if (entry.isDirectory()) {
-        const skillPath = path.join(SKILLS_DIR, entry.name);
+function scanDirectory(dir: string, category: string, skills: Skill[]) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  
+  for (const entry of entries) {
+    if (!entry.isDirectory()) {
+      // Handle markdown files directly (agency-templates pattern)
+      if (entry.name.endsWith('.md') && !entry.name.includes('README') && !entry.name.includes('INDEX') && !entry.name.includes('LICENSE') && !entry.name.includes('CONTRIBUTING')) {
+        const skillPath = path.join(dir, entry.name);
+        const skillName = entry.name.replace('.md', '');
+        
         const skill: Skill = {
-          name: entry.name,
+          name: skillName,
+          category: category,
           description: '',
           usedBy: [],
           status: 'active',
-          hasScripts: fs.existsSync(path.join(skillPath, 'scripts')),
-          hasReferences: fs.existsSync(path.join(skillPath, 'references')),
-          hasTemplates: fs.existsSync(path.join(skillPath, 'templates')),
+          hasScripts: false,
+          hasReferences: false,
+          hasTemplates: false,
         };
 
-        // Read README.md for description
-        const readmePath = path.join(skillPath, 'README.md');
-        if (fs.existsSync(readmePath)) {
-          skill.readmeContent = fs.readFileSync(readmePath, 'utf-8');
-          const lines = skill.readmeContent.split('\n').filter(l => l.trim());
-          const descLine = lines.find(l => !l.startsWith('#'));
-          if (descLine) {
-            skill.description = descLine.trim();
-          }
-        }
-
-        // Read SKILL.md
-        const skillMdPath = path.join(skillPath, 'SKILL.md');
-        if (fs.existsSync(skillMdPath)) {
-          skill.skillMdContent = fs.readFileSync(skillMdPath, 'utf-8');
+        const content = fs.readFileSync(skillPath, 'utf-8');
+        skill.skillMdContent = content;
+        
+        // Extract description from first paragraph
+        const lines = content.split('\n').filter(l => l.trim());
+        const descLine = lines.find(l => !l.startsWith('#') && !l.startsWith('---') && l.length > 20);
+        if (descLine) {
+          skill.description = descLine.trim().substring(0, 200);
         }
 
         skills.push(skill);
       }
+      continue;
     }
 
-    // Parse INDEX.md for metadata
-    const indexPath = path.join(SKILLS_DIR, 'INDEX.md');
-    if (fs.existsSync(indexPath)) {
-      const indexContent = fs.readFileSync(indexPath, 'utf-8');
-      const lines = indexContent.split('\n');
-      for (const line of lines) {
-        if (line.startsWith('|') && !line.includes('Skill') && !line.includes('---')) {
-          const parts = line.split('|').map(p => p.trim()).filter(p => p);
-          if (parts.length >= 4) {
-            const [name, desc, used, status] = parts;
-            const skill = skills.find(s => s.name === name);
-            if (skill) {
-              if (desc && desc !== '—') skill.description = desc;
-              skill.usedBy = used.split(',').map(u => u.trim()).filter(u => u && u !== '—');
-              if (status && status !== '—') skill.status = status;
-            }
-          }
-        }
+    const subDir = path.join(dir, entry.name);
+    
+    // Check if this directory contains a SKILL.md (actual skill)
+    const skillMdPath = path.join(subDir, 'SKILL.md');
+    if (fs.existsSync(skillMdPath)) {
+      const skill: Skill = {
+        name: entry.name,
+        category: category,
+        description: '',
+        usedBy: [],
+        status: 'active',
+        hasScripts: fs.existsSync(path.join(subDir, 'scripts')),
+        hasReferences: fs.existsSync(path.join(subDir, 'references')),
+        hasTemplates: fs.existsSync(path.join(subDir, 'templates')),
+      };
+
+      // Read SKILL.md
+      skill.skillMdContent = fs.readFileSync(skillMdPath, 'utf-8');
+      
+      // Extract description
+      const lines = skill.skillMdContent.split('\n').filter(l => l.trim());
+      const descLine = lines.find(l => !l.startsWith('#') && !l.startsWith('---') && l.length > 20);
+      if (descLine) {
+        skill.description = descLine.trim().substring(0, 200);
+      }
+
+      // Read README.md if exists
+      const readmePath = path.join(subDir, 'README.md');
+      if (fs.existsSync(readmePath)) {
+        skill.readmeContent = fs.readFileSync(readmePath, 'utf-8');
+      }
+
+      skills.push(skill);
+    } else {
+      // Recurse into subcategory (e.g., agency-templates/design/)
+      scanDirectory(subDir, `${category}/${entry.name}`, skills);
+    }
+  }
+}
+
+export async function GET() {
+  try {
+    const skills: Skill[] = [];
+    
+    if (!fs.existsSync(SKILLS_DIR)) {
+      return NextResponse.json({ skills: [], count: 0 });
+    }
+
+    const categories = fs.readdirSync(SKILLS_DIR, { withFileTypes: true });
+    
+    for (const category of categories) {
+      if (category.isDirectory() && category.name !== 'node_modules') {
+        const categoryPath = path.join(SKILLS_DIR, category.name);
+        scanDirectory(categoryPath, category.name, skills);
       }
     }
 

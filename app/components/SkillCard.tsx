@@ -1,5 +1,6 @@
 interface Skill {
   name: string;
+  category: string;
   description: string;
   usedBy: string[];
   status: string;
@@ -17,23 +18,28 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
   return (
     <div onClick={onClick} className="card">
       {/* Header */}
-      <div className="flex items-start justify-between mb-4 gap-4">
-        <h3 className="text-2xl font-bold text-white leading-tight flex-1">
-          {skill.name}
-        </h3>
-        <span
-          className="pill-tag text-xs flex-shrink-0"
-          style={{
-            background: skill.status === 'active' 
-              ? 'rgba(6, 182, 212, 0.06)' 
-              : 'rgba(255, 255, 255, 0.06)',
-            borderColor: skill.status === 'active'
-              ? 'rgba(6, 182, 212, 0.2)'
-              : 'rgba(255, 255, 255, 0.15)',
-          }}
-        >
-          {skill.status.toUpperCase()}
-        </span>
+      <div className="mb-4">
+        <p className="text-xs font-mono uppercase tracking-wider mb-2" style={{ color: 'rgba(6, 182, 212, 0.5)', letterSpacing: '0.1em' }}>
+          {skill.category}
+        </p>
+        <div className="flex items-start justify-between gap-4">
+          <h3 className="text-2xl font-bold text-white leading-tight flex-1">
+            {skill.name}
+          </h3>
+          <span
+            className="pill-tag text-xs flex-shrink-0"
+            style={{
+              background: skill.status === 'active' 
+                ? 'rgba(6, 182, 212, 0.06)' 
+                : 'rgba(255, 255, 255, 0.06)',
+              borderColor: skill.status === 'active'
+                ? 'rgba(6, 182, 212, 0.2)'
+                : 'rgba(255, 255, 255, 0.15)',
+            }}
+          >
+            {skill.status.toUpperCase()}
+          </span>
+        </div>
       </div>
 
       {/* Description */}

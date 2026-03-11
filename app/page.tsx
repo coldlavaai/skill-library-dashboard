@@ -6,6 +6,7 @@ import SkillModal from './components/SkillModal';
 
 interface Skill {
   name: string;
+  category: string;
   description: string;
   usedBy: string[];
   status: string;
