@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 interface Skill {
@@ -20,117 +20,292 @@ interface SkillModalProps {
 }
 
 export default function SkillModal({ skill, onClose }: SkillModalProps) {
+  const handleEscape = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') onClose();
+  }, [onClose]);
+
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
     window.addEventListener('keydown', handleEscape);
     document.body.style.overflow = 'hidden';
     return () => {
       window.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'unset';
     };
-  }, [onClose]);
+  }, [handleEscape]);
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
-      style={{ background: 'rgba(0, 0, 0, 0.85)', backdropFilter: 'blur(12px)' }}
+      className="fixed inset-0 z-[200] flex items-start justify-center"
+      style={{
+        background: 'rgba(3,3,5,0.92)',
+        backdropFilter: 'blur(16px)',
+        overflowY: 'auto',
+        padding: '4rem 1rem',
+      }}
       onClick={onClose}
     >
       <div
-        className="w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col"
+        className="w-full relative"
         style={{
-          background: 'rgba(0, 0, 0, 0.6)',
-          border: '1px solid rgba(6, 182, 212, 0.2)',
+          maxWidth: 820,
+          background: 'rgba(0,0,0,0.7)',
+          border: '1px solid rgba(6,182,212,0.15)',
           backdropFilter: 'blur(8px)',
+          animation: 'fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         }}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Corner brackets on modal */}
+        <div style={{
+          position: 'absolute', top: 0, left: 0,
+          width: 20, height: 20,
+          borderLeft: '1px solid rgba(6,182,212,0.3)',
+          borderTop: '1px solid rgba(6,182,212,0.3)',
+          pointerEvents: 'none',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: 0, right: 0,
+          width: 20, height: 20,
+          borderRight: '1px solid rgba(6,182,212,0.3)',
+          borderBottom: '1px solid rgba(6,182,212,0.3)',
+          pointerEvents: 'none',
+        }} />
+        <div style={{
+          position: 'absolute', top: 0, right: 0,
+          width: 20, height: 20,
+          borderRight: '1px solid rgba(6,182,212,0.15)',
+          borderTop: '1px solid rgba(6,182,212,0.15)',
+          pointerEvents: 'none',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0,
+          width: 20, height: 20,
+          borderLeft: '1px solid rgba(6,182,212,0.15)',
+          borderBottom: '1px solid rgba(6,182,212,0.15)',
+          pointerEvents: 'none',
+        }} />
+
         {/* Header */}
-        <div className="p-8 flex items-start justify-between flex-shrink-0" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
-          <div className="flex-1">
-            <div className="label mb-4">
-              SKILL DETAILS
-            </div>
-            <h2 className="text-5xl font-bold text-white mb-6 leading-tight" style={{ letterSpacing: '-0.02em' }}>
-              {skill.name}
-            </h2>
-            
-            {/* Metadata Row */}
-            <div className="flex flex-wrap items-center gap-4">
-              {/* Status Badge */}
-              <div className="investment">
-                <div className="dot"></div>
-                <span>{skill.status.toUpperCase()}</span>
-              </div>
+        <div
+          className="p-8"
+          style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
+        >
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            style={{
+              position: 'absolute',
+              top: '1.5rem',
+              right: '1.5rem',
+              background: 'transparent',
+              border: '1px solid rgba(255,255,255,0.08)',
+              color: 'rgba(255,255,255,0.3)',
+              width: 32,
+              height: 32,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.8rem',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(6,182,212,0.3)';
+              e.currentTarget.style.color = 'rgba(255,255,255,0.6)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+              e.currentTarget.style.color = 'rgba(255,255,255,0.3)';
+            }}
+          >
+            ✕
+          </button>
 
-              {/* Used By Tags */}
-              {skill.usedBy.length > 0 && (
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-mono uppercase tracking-wider" style={{ color: 'rgba(255, 255, 255, 0.35)', letterSpacing: '0.1em' }}>USED BY:</span>
-                  {skill.usedBy.map((agent) => (
-                    <span key={agent} className="pill-tag text-xs">
-                      {agent}
-                    </span>
-                  ))}
-                </div>
-              )}
+          <div className="label mb-3">
+            SKILL DETAILS
+          </div>
+
+          {/* Category */}
+          <p
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.68rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              color: 'rgba(6,182,212,0.45)',
+              marginBottom: '0.75rem',
+            }}
+          >
+            {skill.category.replace(/-/g, ' ').replace(/\//g, ' / ')}
+          </p>
+
+          {/* Title */}
+          <h2
+            style={{
+              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+              fontWeight: 700,
+              color: '#fff',
+              letterSpacing: '-0.02em',
+              lineHeight: 1.15,
+              marginBottom: '1.5rem',
+            }}
+          >
+            {skill.name}
+          </h2>
+
+          {/* Metadata row */}
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Status */}
+            <div className="investment" style={{ marginTop: 0 }}>
+              <div className="dot"></div>
+              <span>{skill.status.toUpperCase()}</span>
             </div>
 
-            {/* Features */}
-            {(skill.hasScripts || skill.hasReferences || skill.hasTemplates) && (
-              <div className="flex gap-4 mt-6 pt-6 text-xs font-mono uppercase tracking-wider" style={{ 
-                borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-                color: 'rgba(6, 182, 212, 0.5)',
-                letterSpacing: '0.1em'
-              }}>
-                {skill.hasScripts && <span>→ SCRIPTS</span>}
-                {skill.hasReferences && <span>→ REFERENCES</span>}
-                {skill.hasTemplates && <span>→ TEMPLATES</span>}
+            {/* Used by */}
+            {skill.usedBy.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2">
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.62rem',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                    color: 'rgba(255,255,255,0.25)',
+                  }}
+                >
+                  USED BY
+                </span>
+                {skill.usedBy.map((agent) => (
+                  <span
+                    key={agent}
+                    className="pill-tag"
+                    style={{ fontSize: '0.65rem', padding: '0.3rem 0.6rem' }}
+                  >
+                    {agent}
+                  </span>
+                ))}
               </div>
             )}
           </div>
 
-          {/* Close Button */}
-          <button
-            onClick={onClose}
-            className="text-3xl leading-none font-light ml-8 flex-shrink-0"
-            style={{ color: 'rgba(255, 255, 255, 0.35)' }}
-            aria-label="Close"
-          >
-            ✕
-          </button>
+          {/* Features */}
+          {(skill.hasScripts || skill.hasReferences || skill.hasTemplates) && (
+            <div
+              className="flex gap-4 mt-5 pt-5"
+              style={{
+                borderTop: '1px solid rgba(255,255,255,0.04)',
+              }}
+            >
+              {skill.hasScripts && (
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.68rem',
+                  color: 'rgba(6,182,212,0.45)',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                }}>→ SCRIPTS</span>
+              )}
+              {skill.hasReferences && (
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.68rem',
+                  color: 'rgba(6,182,212,0.45)',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                }}>→ REFERENCES</span>
+              )}
+              {skill.hasTemplates && (
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.68rem',
+                  color: 'rgba(6,182,212,0.45)',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                }}>→ TEMPLATES</span>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Content */}
-        <div className="overflow-y-auto p-8 flex-1">
+        {/* Content body */}
+        <div className="p-8 modal-content">
           {skill.skillMdContent ? (
             <>
-              <div className="label mb-6">
+              <div className="label mb-5">
                 SKILL.MD
               </div>
-              <div className="card p-6 mb-12 skill-markdown">
+              <div
+                className="skill-markdown"
+                style={{
+                  background: 'rgba(0,0,0,0.3)',
+                  border: '1px solid rgba(6,182,212,0.08)',
+                  padding: '2rem',
+                  marginBottom: '3rem',
+                  position: 'relative',
+                }}
+              >
+                {/* Corner brackets */}
+                <div style={{
+                  position: 'absolute', top: 0, left: 0,
+                  width: 10, height: 10,
+                  borderLeft: '1px solid rgba(6,182,212,0.2)',
+                  borderTop: '1px solid rgba(6,182,212,0.2)',
+                  pointerEvents: 'none',
+                }} />
+                <div style={{
+                  position: 'absolute', bottom: 0, right: 0,
+                  width: 10, height: 10,
+                  borderRight: '1px solid rgba(6,182,212,0.2)',
+                  borderBottom: '1px solid rgba(6,182,212,0.2)',
+                  pointerEvents: 'none',
+                }} />
                 <ReactMarkdown>
                   {skill.skillMdContent}
                 </ReactMarkdown>
               </div>
             </>
           ) : (
-            <div className="arch-box p-12 text-center mb-12">
+            <div className="arch-box p-10 text-center mb-10">
               <div className="corner-tr"></div>
               <div className="corner-bl"></div>
-              <div className="label mb-4">NO SKILL.MD FOUND</div>
-              <p style={{ color: 'rgba(255, 255, 255, 0.5)' }} className="italic">This skill is missing its main instruction file</p>
+              <div className="label mb-3" style={{ justifyContent: 'center' }}>NO SKILL.MD FOUND</div>
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontStyle: 'italic', fontWeight: 300 }}>
+                This skill is missing its main instruction file
+              </p>
             </div>
           )}
 
           {skill.readmeContent && (
             <>
-              <div className="label mb-6 mt-12">
+              <div className="section-divider" style={{ margin: '2rem 0' }}></div>
+              <div className="label mb-5">
                 README.MD
               </div>
-              <div className="card p-6 skill-markdown">
+              <div
+                className="skill-markdown"
+                style={{
+                  background: 'rgba(0,0,0,0.3)',
+                  border: '1px solid rgba(6,182,212,0.08)',
+                  padding: '2rem',
+                  position: 'relative',
+                }}
+              >
+                <div style={{
+                  position: 'absolute', top: 0, left: 0,
+                  width: 10, height: 10,
+                  borderLeft: '1px solid rgba(6,182,212,0.2)',
+                  borderTop: '1px solid rgba(6,182,212,0.2)',
+                  pointerEvents: 'none',
+                }} />
+                <div style={{
+                  position: 'absolute', bottom: 0, right: 0,
+                  width: 10, height: 10,
+                  borderRight: '1px solid rgba(6,182,212,0.2)',
+                  borderBottom: '1px solid rgba(6,182,212,0.2)',
+                  pointerEvents: 'none',
+                }} />
                 <ReactMarkdown>
                   {skill.readmeContent}
                 </ReactMarkdown>
@@ -138,10 +313,21 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
             </>
           )}
 
-          {/* Close hint at bottom */}
-          <div className="mt-12 pt-8 text-center" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}>
-            <p className="text-xs font-mono uppercase tracking-wider" style={{ color: 'rgba(255, 255, 255, 0.25)', letterSpacing: '0.1em' }}>
-              PRESS ESC OR CLICK OUTSIDE TO CLOSE
+          {/* Close hint */}
+          <div
+            className="mt-10 pt-6 text-center"
+            style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}
+          >
+            <p
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.62rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.12em',
+                color: 'rgba(255,255,255,0.15)',
+              }}
+            >
+              ESC OR CLICK OUTSIDE TO CLOSE
             </p>
           </div>
         </div>
