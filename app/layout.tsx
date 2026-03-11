@@ -26,7 +26,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-sans antialiased">
+      <body style={{
+        fontFamily: "var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif",
+        WebkitFontSmoothing: 'antialiased',
+        MozOsxFontSmoothing: 'grayscale',
+        background: '#030305',
+        color: '#FFFFFF',
+        margin: 0,
+        padding: 0,
+      } as React.CSSProperties}>
         {children}
       </body>
     </html>

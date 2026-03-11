@@ -59,24 +59,70 @@ export default function Home() {
   const activeSkillCount = skills.filter(s => s.status === 'active').length;
 
   return (
-    <main className="min-h-screen">
+    <main style={{ minHeight: '100vh', background: '#030305' }}>
       {/* Top bar */}
-      <header className="fixed top-0 left-0 right-0 z-[100] bg-[#030305]/90 backdrop-blur-md border-b border-[#1a1a1a]">
-        <div className="max-w-[960px] mx-auto w-full px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#111111] border border-[#1a1a1a] flex items-center justify-center">
-              <span className="font-mono font-bold text-xs text-[#06B6D4]">CL</span>
+      <header style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 100,
+        background: 'rgba(3,3,5,0.92)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderBottom: '1px solid #2a2a2a',
+      }}>
+        <div style={{
+          maxWidth: 960,
+          margin: '0 auto',
+          width: '100%',
+          padding: '16px 32px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{
+              width: 32,
+              height: 32,
+              borderRadius: 8,
+              background: '#111111',
+              border: '1px solid #2a2a2a',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <span style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontWeight: 700,
+                fontSize: 12,
+                color: '#06B6D4',
+              }}>CL</span>
             </div>
-            <span className="font-mono text-sm font-medium text-[#86868B] tracking-wider uppercase">
+            <span style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 14,
+              fontWeight: 500,
+              color: '#86868B',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase' as const,
+            }}>
               SKILL LIBRARY
             </span>
           </div>
-          <div className="flex items-center gap-6">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
             <a
               href="https://github.com/coldlavaai/skill-library-data"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-mono text-sm text-[#86868B] tracking-wider uppercase no-underline hover:text-[#06B6D4] transition-colors"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 13,
+                color: '#86868B',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase' as const,
+                textDecoration: 'none',
+              }}
             >
               GITHUB
             </a>
@@ -84,7 +130,14 @@ export default function Home() {
               href="https://coldlava.ai"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-mono text-sm text-[#86868B] tracking-wider uppercase no-underline hover:text-[#06B6D4] transition-colors"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 13,
+                color: '#86868B',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase' as const,
+                textDecoration: 'none',
+              }}
             >
               COLDLAVA.AI
             </a>
@@ -92,66 +145,190 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="section-inner mx-auto px-8" style={{ paddingTop: '7rem', paddingBottom: '4rem' }}>
-        {/* Hero */}
-        <section className="mb-12 animate-fade-in">
-          <div className="label">COLD LAVA FLEET</div>
+      <div style={{
+        maxWidth: 960,
+        margin: '0 auto',
+        padding: '112px 32px 64px',
+      }}>
+        {/* Hero Section */}
+        <section style={{ marginBottom: 48, animation: 'fadeInUp 0.5s ease-out forwards' }}>
+          {/* Label */}
+          <div style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 14,
+            fontWeight: 500,
+            textTransform: 'uppercase' as const,
+            letterSpacing: '0.12em',
+            color: '#86868B',
+            marginBottom: 24,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 16,
+          }}>
+            <span style={{ width: 32, height: 1, background: 'rgba(6,182,212,0.3)', flexShrink: 0 }} />
+            COLD LAVA FLEET
+          </div>
 
-          <h1 className="mb-5">
-            <span className="text-white">Skill</span>{' '}
-            <span className="thin">Library</span>
+          <h1 style={{
+            fontSize: 'clamp(2.5rem, 6vw, 4rem)',
+            fontWeight: 800,
+            lineHeight: 1.1,
+            letterSpacing: '-0.03em',
+            color: '#FFFFFF',
+            marginBottom: 20,
+          }}>
+            Skill{' '}
+            <span style={{ fontWeight: 300, color: '#86868B' }}>Library</span>
           </h1>
 
-          <p className="lead mb-8">
+          <p style={{
+            fontSize: 17,
+            fontWeight: 400,
+            color: '#86868B',
+            lineHeight: 1.75,
+            maxWidth: 650,
+            marginBottom: 32,
+          }}>
             Packaged skills for the agent fleet. Progressive disclosure,
             composability, tested patterns. Every skill follows the standard.
           </p>
 
           {/* Stats row */}
           {!loading && skills.length > 0 && (
-            <div className="stat-grid" style={{ maxWidth: 560 }}>
-              <div className="stat-card">
-                <div className="stat-value">{skills.length}</div>
-                <div className="stat-label">TOTAL SKILLS</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-value">{activeSkillCount}</div>
-                <div className="stat-label">ACTIVE</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-value">{categories.length - 1}</div>
-                <div className="stat-label">CATEGORIES</div>
-              </div>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+              gap: 16,
+              maxWidth: 560,
+              margin: '32px 0',
+            }}>
+              {[
+                { value: skills.length, label: 'TOTAL SKILLS' },
+                { value: activeSkillCount, label: 'ACTIVE' },
+                { value: categories.length - 1, label: 'CATEGORIES' },
+              ].map(stat => (
+                <div key={stat.label} style={{
+                  background: '#111111',
+                  border: '1px solid #2a2a2a',
+                  borderRadius: 16,
+                  padding: 24,
+                  textAlign: 'center' as const,
+                }}>
+                  <div style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 32,
+                    fontWeight: 700,
+                    color: '#06B6D4',
+                    marginBottom: 8,
+                  }}>{stat.value}</div>
+                  <div style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 12,
+                    textTransform: 'uppercase' as const,
+                    letterSpacing: '0.1em',
+                    color: '#86868B',
+                  }}>{stat.label}</div>
+                </div>
+              ))}
             </div>
           )}
 
           {!loading && skills.length === 0 && (
-            <div className="investment">
-              <div className="dot"></div>
-              <span>0 SKILLS AVAILABLE</span>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 12,
+              background: '#111111',
+              border: '1px solid #2a2a2a',
+              borderRadius: 12,
+              padding: '10px 20px',
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 13,
+              color: '#86868B',
+              letterSpacing: '0.05em',
+            }}>
+              <span style={{
+                width: 6, height: 6,
+                background: '#06B6D4',
+                borderRadius: '50%',
+              }} />
+              0 SKILLS AVAILABLE
             </div>
           )}
         </section>
 
-        <div className="section-divider"></div>
+        {/* Divider */}
+        <div style={{
+          height: 1,
+          background: 'linear-gradient(90deg, transparent, rgba(6,182,212,0.1), transparent)',
+          margin: '32px 0',
+        }} />
 
         {/* Search + Filter */}
-        <section className="mb-10 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          <div className="label">SEARCH &amp; FILTER</div>
+        <section style={{ marginBottom: 40, animation: 'fadeInUp 0.5s ease-out 0.1s forwards', opacity: 0 }}>
+          <div style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 14,
+            fontWeight: 500,
+            textTransform: 'uppercase' as const,
+            letterSpacing: '0.12em',
+            color: '#86868B',
+            marginBottom: 24,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 16,
+          }}>
+            <span style={{ width: 32, height: 1, background: 'rgba(6,182,212,0.3)', flexShrink: 0 }} />
+            SEARCH &amp; FILTER
+          </div>
+
           <input
             type="search"
             placeholder="Filter by name, description, or agent..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            style={{
+              background: '#111111',
+              border: '1px solid #2a2a2a',
+              borderRadius: 12,
+              color: '#FFFFFF',
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 16,
+              padding: '14px 20px',
+              width: '100%',
+              outline: 'none',
+              transition: 'border-color 0.2s ease',
+            }}
+            onFocus={(e) => { e.currentTarget.style.borderColor = '#06B6D4'; }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = '#2a2a2a'; }}
           />
 
           {categories.length > 2 && (
-            <div className="category-tabs" style={{ marginTop: '1rem' }}>
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap' as const,
+              gap: 8,
+              marginTop: 16,
+              marginBottom: 32,
+            }}>
               {categories.map(cat => (
                 <button
                   key={cat}
-                  className={`category-tab ${activeCategory === cat ? 'active' : ''}`}
                   onClick={() => setActiveCategory(cat)}
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 13,
+                    fontWeight: 500,
+                    textTransform: 'uppercase' as const,
+                    letterSpacing: '0.06em',
+                    color: activeCategory === cat ? '#06B6D4' : '#86868B',
+                    background: activeCategory === cat ? 'rgba(6,182,212,0.08)' : '#111111',
+                    border: activeCategory === cat ? '1px solid #06B6D4' : '1px solid #2a2a2a',
+                    borderRadius: 8,
+                    padding: '8px 16px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                  }}
                 >
                   {cat === 'all' ? 'ALL' : cat.replace(/-/g, ' ')}
                 </button>
@@ -162,13 +339,32 @@ export default function Home() {
 
         {/* Loading */}
         {loading && (
-          <div className="py-24 flex flex-col items-center gap-6">
-            <div className="loading-pulse">
-              <span></span>
-              <span></span>
-              <span></span>
+          <div style={{
+            padding: '96px 0',
+            display: 'flex',
+            flexDirection: 'column' as const,
+            alignItems: 'center',
+            gap: 24,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              {[0, 1, 2].map(i => (
+                <span key={i} style={{
+                  width: 6,
+                  height: 6,
+                  background: '#06B6D4',
+                  borderRadius: '50%',
+                  animation: `loadPulse 1.4s ease-in-out infinite both`,
+                  animationDelay: `${i * 0.16}s`,
+                }} />
+              ))}
             </div>
-            <p className="font-mono text-sm text-[#86868B] tracking-wider uppercase">
+            <p style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 14,
+              color: '#86868B',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase' as const,
+            }}>
               LOADING SKILLS
             </p>
           </div>
@@ -176,11 +372,33 @@ export default function Home() {
 
         {/* Empty */}
         {!loading && skills.length === 0 && (
-          <div className="flex justify-center py-20">
-            <div className="arch-box px-16 py-12 text-center" style={{ maxWidth: 480 }}>
-              <div className="label mb-4" style={{ justifyContent: 'center' }}>LIBRARY EMPTY</div>
-              <p className="text-white text-xl mb-3">No skills deployed yet</p>
-              <p className="font-mono text-sm text-[#86868B] tracking-wider uppercase mt-4">
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '80px 0' }}>
+            <div style={{
+              background: '#111111',
+              border: '1px solid #2a2a2a',
+              borderRadius: 16,
+              padding: '48px 64px',
+              textAlign: 'center' as const,
+              maxWidth: 480,
+            }}>
+              <div style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 14,
+                fontWeight: 500,
+                textTransform: 'uppercase' as const,
+                letterSpacing: '0.12em',
+                color: '#86868B',
+                marginBottom: 16,
+              }}>LIBRARY EMPTY</div>
+              <p style={{ color: '#FFFFFF', fontSize: 20, marginBottom: 12 }}>No skills deployed yet</p>
+              <p style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 13,
+                color: '#86868B',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase' as const,
+                marginTop: 16,
+              }}>
                 SKILLS WILL APPEAR WHEN ADDED TO THE LIBRARY
               </p>
             </div>
@@ -190,18 +408,42 @@ export default function Home() {
         {/* Skills Grid */}
         {!loading && filteredSkills.length > 0 && (
           <>
-            <div className="label mb-4" style={{ animationDelay: '0.15s' }}>
+            <div style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 14,
+              fontWeight: 500,
+              textTransform: 'uppercase' as const,
+              letterSpacing: '0.12em',
+              color: '#86868B',
+              marginBottom: 16,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 16,
+            }}>
+              <span style={{ width: 32, height: 1, background: 'rgba(6,182,212,0.3)', flexShrink: 0 }} />
               {activeCategory === 'all' ? 'ALL SKILLS' : activeCategory.replace(/-/g, ' ').toUpperCase()}
-              <span className="font-mono text-sm text-[#86868B] ml-2">
+              <span style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 14,
+                color: '#86868B',
+                marginLeft: 4,
+              }}>
                 ({filteredSkills.length})
               </span>
             </div>
-            <div className="card-grid mb-16">
-              {filteredSkills.map((skill) => (
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+              gap: 20,
+              marginTop: 24,
+              marginBottom: 64,
+            }}>
+              {filteredSkills.map((skill, index) => (
                 <SkillCard
                   key={skill.name}
                   skill={skill}
                   onClick={() => setSelectedSkill(skill)}
+                  index={index}
                 />
               ))}
             </div>
@@ -210,10 +452,25 @@ export default function Home() {
 
         {/* No results */}
         {!loading && skills.length > 0 && filteredSkills.length === 0 && (
-          <div className="flex justify-center py-20">
-            <div className="arch-box px-16 py-12 text-center" style={{ maxWidth: 480 }}>
-              <div className="label mb-4" style={{ justifyContent: 'center' }}>NO MATCHES</div>
-              <p className="text-[#86868B] text-lg">No skills match your search</p>
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '80px 0' }}>
+            <div style={{
+              background: '#111111',
+              border: '1px solid #2a2a2a',
+              borderRadius: 16,
+              padding: '48px 64px',
+              textAlign: 'center' as const,
+              maxWidth: 480,
+            }}>
+              <div style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 14,
+                fontWeight: 500,
+                textTransform: 'uppercase' as const,
+                letterSpacing: '0.12em',
+                color: '#86868B',
+                marginBottom: 16,
+              }}>NO MATCHES</div>
+              <p style={{ color: '#86868B', fontSize: 18 }}>No skills match your search</p>
             </div>
           </div>
         )}
@@ -228,12 +485,31 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-[#1a1a1a] mt-16">
-        <div className="section-inner mx-auto px-8 py-8 flex items-center justify-between">
-          <p className="font-mono text-sm text-[#86868B] tracking-wider uppercase">
+      <footer style={{ borderTop: '1px solid #2a2a2a', marginTop: 64 }}>
+        <div style={{
+          maxWidth: 960,
+          margin: '0 auto',
+          padding: '32px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+          <p style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 13,
+            color: '#86868B',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase' as const,
+          }}>
             COLD LAVA AI © {new Date().getFullYear()}
           </p>
-          <p className="font-mono text-sm text-[#86868B] tracking-wider uppercase">
+          <p style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 13,
+            color: '#86868B',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase' as const,
+          }}>
             BUILT WITH PRECISION
           </p>
         </div>
