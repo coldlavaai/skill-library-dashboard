@@ -37,7 +37,7 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
   return (
     <div onClick={onClick} className="card">
       {/* Category + Status row */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
           <span
             style={{
@@ -109,8 +109,8 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
           fontWeight: 600,
           color: '#fff',
           letterSpacing: '-0.01em',
-          lineHeight: 1.3,
-          marginBottom: '0.75rem',
+          lineHeight: 1.35,
+          marginBottom: '0.85rem',
         }}
       >
         {skill.name}
@@ -119,9 +119,9 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
       {/* Description */}
       <p
         style={{
-          fontSize: '0.9rem',
-          lineHeight: 1.65,
-          color: 'rgba(255,255,255,0.5)',
+          fontSize: '0.92rem',
+          lineHeight: 1.7,
+          color: 'rgba(255,255,255,0.7)',
           marginBottom: '1.25rem',
           display: '-webkit-box',
           WebkitLineClamp: 3,
@@ -152,7 +152,7 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
               fontSize: '0.62rem',
               textTransform: 'uppercase',
               letterSpacing: '0.12em',
-              color: 'rgba(255,255,255,0.25)',
+              color: 'rgba(255,255,255,0.35)',
               marginBottom: '0.5rem',
             }}
           >
@@ -172,6 +172,7 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
       {(skill.hasScripts || skill.hasReferences || skill.hasTemplates) && (
         <div className="flex flex-wrap gap-3"
           style={{
+            paddingTop: '0.25rem',
             paddingBottom: '1rem',
             marginBottom: '0.75rem',
             borderBottom: '1px solid rgba(255,255,255,0.04)',
@@ -211,8 +212,9 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
           fontSize: '0.62rem',
           textTransform: 'uppercase',
           letterSpacing: '0.1em',
-          color: 'rgba(255,255,255,0.2)',
+          color: 'rgba(255,255,255,0.3)',
           transition: 'color 0.3s ease',
+          marginTop: '0.5rem',
         }}
       >
         VIEW DETAILS →

@@ -40,7 +40,8 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
         background: 'rgba(3,3,5,0.92)',
         backdropFilter: 'blur(16px)',
         overflowY: 'auto',
-        padding: '4rem 1rem',
+        WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
+        padding: '3rem 1rem 4rem',
       }}
       onClick={onClose}
     >
@@ -52,6 +53,7 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
           border: '1px solid rgba(6,182,212,0.15)',
           backdropFilter: 'blur(8px)',
           animation: 'fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          marginBottom: '2rem',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -87,7 +89,7 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
 
         {/* Header */}
         <div
-          className="p-8"
+          className="p-8 pb-6"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
         >
           {/* Close button */}
@@ -131,11 +133,11 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
           <p
             style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.68rem',
+              fontSize: '0.7rem',
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              color: 'rgba(6,182,212,0.45)',
-              marginBottom: '0.75rem',
+              color: 'rgba(6,182,212,0.55)',
+              marginBottom: '0.85rem',
             }}
           >
             {skill.category.replace(/-/g, ' ').replace(/\//g, ' / ')}
@@ -148,8 +150,8 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
               fontWeight: 700,
               color: '#fff',
               letterSpacing: '-0.02em',
-              lineHeight: 1.15,
-              marginBottom: '1.5rem',
+              lineHeight: 1.2,
+              marginBottom: '1.75rem',
             }}
           >
             {skill.name}
@@ -169,10 +171,10 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
                 <span
                   style={{
                     fontFamily: 'var(--font-mono)',
-                    fontSize: '0.62rem',
+                    fontSize: '0.65rem',
                     textTransform: 'uppercase',
                     letterSpacing: '0.1em',
-                    color: 'rgba(255,255,255,0.25)',
+                    color: 'rgba(255,255,255,0.35)',
                   }}
                 >
                   USED BY
