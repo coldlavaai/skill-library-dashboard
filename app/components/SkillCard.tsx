@@ -39,128 +39,53 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
       {/* Category + Status row */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
-          <span
-            style={{
-              color: 'rgba(6,182,212,0.4)',
-              fontSize: '0.75rem',
-              lineHeight: 1,
-            }}
-          >
+          <span className="text-[#06B6D4] text-sm leading-none">
             {getCategoryIcon(skill.category)}
           </span>
-          <span
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.68rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              color: 'rgba(6,182,212,0.45)',
-            }}
-          >
+          <span className="font-mono text-xs uppercase tracking-wider text-[#06B6D4]">
             {baseCategory.replace(/-/g, ' ')}
             {subCategory && (
-              <span style={{ color: 'rgba(255,255,255,0.2)' }}>
+              <span className="text-[#86868B]">
                 {' / '}{subCategory.replace(/-/g, ' ')}
               </span>
             )}
           </span>
         </div>
         <span
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.6rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
-            padding: '0.25rem 0.6rem',
-            background: skill.status === 'active'
-              ? 'rgba(6,182,212,0.06)'
-              : 'rgba(255,255,255,0.04)',
-            border: `1px solid ${skill.status === 'active'
-              ? 'rgba(6,182,212,0.15)'
-              : 'rgba(255,255,255,0.08)'}`,
-            color: skill.status === 'active'
-              ? 'rgba(6,182,212,0.6)'
-              : 'rgba(255,255,255,0.3)',
-          }}
+          className={`font-mono text-xs uppercase tracking-wider px-2.5 py-1 rounded-md border ${
+            skill.status === 'active'
+              ? 'bg-[#06B6D4]/8 border-[#06B6D4]/20 text-[#06B6D4]'
+              : 'bg-[#111111] border-[#1a1a1a] text-[#86868B]'
+          }`}
         >
           {skill.status === 'active' && (
-            <span
-              style={{
-                display: 'inline-block',
-                width: 4,
-                height: 4,
-                borderRadius: '50%',
-                background: 'rgba(6,182,212,0.6)',
-                marginRight: 5,
-                verticalAlign: 'middle',
-                position: 'relative',
-                top: -1,
-              }}
-            />
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#06B6D4] mr-1.5 align-middle relative -top-px" />
           )}
           {skill.status.toUpperCase()}
         </span>
       </div>
 
       {/* Skill name */}
-      <h3
-        style={{
-          fontSize: '1.15rem',
-          fontWeight: 600,
-          color: '#fff',
-          letterSpacing: '-0.01em',
-          lineHeight: 1.35,
-          marginBottom: '0.85rem',
-        }}
-      >
+      <h3 className="text-lg font-semibold text-white mb-3 leading-snug">
         {skill.name}
       </h3>
 
       {/* Description */}
-      <p
-        style={{
-          fontSize: '0.92rem',
-          lineHeight: 1.7,
-          color: 'rgba(255,255,255,0.7)',
-          marginBottom: '1.25rem',
-          display: '-webkit-box',
-          WebkitLineClamp: 3,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden',
-          fontWeight: 300,
-        }}
-      >
+      <p className="text-sm text-[#86868B] mb-5 leading-relaxed line-clamp-3">
         {skill.description || (
-          <span style={{ color: 'rgba(255,255,255,0.25)', fontStyle: 'italic' }}>
-            No description available
-          </span>
+          <span className="italic text-[#86868B]">No description available</span>
         )}
       </p>
 
       {/* Used By */}
       {skill.usedBy.length > 0 && (
-        <div
-          style={{
-            paddingBottom: '1rem',
-            marginBottom: '1rem',
-            borderBottom: '1px solid rgba(255,255,255,0.04)',
-          }}
-        >
-          <p
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.62rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.12em',
-              color: 'rgba(255,255,255,0.35)',
-              marginBottom: '0.5rem',
-            }}
-          >
+        <div className="pb-4 mb-4 border-b border-[#1a1a1a]">
+          <p className="font-mono text-xs uppercase tracking-wider text-[#86868B] mb-2">
             USED BY
           </p>
           <div className="flex flex-wrap gap-1.5">
             {skill.usedBy.map((agent) => (
-              <span key={agent} className="pill-tag" style={{ fontSize: '0.65rem', padding: '0.3rem 0.6rem' }}>
+              <span key={agent} className="pill-tag text-xs px-2 py-1">
                 {agent}
               </span>
             ))}
@@ -170,53 +95,21 @@ export default function SkillCard({ skill, onClick }: SkillCardProps) {
 
       {/* Features */}
       {(skill.hasScripts || skill.hasReferences || skill.hasTemplates) && (
-        <div className="flex flex-wrap gap-3"
-          style={{
-            paddingTop: '0.25rem',
-            paddingBottom: '1rem',
-            marginBottom: '0.75rem',
-            borderBottom: '1px solid rgba(255,255,255,0.04)',
-          }}
-        >
+        <div className="flex flex-wrap gap-3 pb-4 mb-3 border-b border-[#1a1a1a]">
           {skill.hasScripts && (
-            <span style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.65rem',
-              color: 'rgba(6,182,212,0.45)',
-              letterSpacing: '0.05em',
-            }}>→ SCRIPTS</span>
+            <span className="font-mono text-xs text-[#06B6D4] tracking-wider">→ SCRIPTS</span>
           )}
           {skill.hasReferences && (
-            <span style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.65rem',
-              color: 'rgba(6,182,212,0.45)',
-              letterSpacing: '0.05em',
-            }}>→ REFS</span>
+            <span className="font-mono text-xs text-[#06B6D4] tracking-wider">→ REFS</span>
           )}
           {skill.hasTemplates && (
-            <span style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.65rem',
-              color: 'rgba(6,182,212,0.45)',
-              letterSpacing: '0.05em',
-            }}>→ TEMPLATES</span>
+            <span className="font-mono text-xs text-[#06B6D4] tracking-wider">→ TEMPLATES</span>
           )}
         </div>
       )}
 
       {/* View prompt */}
-      <div
-        style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.62rem',
-          textTransform: 'uppercase',
-          letterSpacing: '0.1em',
-          color: 'rgba(255,255,255,0.3)',
-          transition: 'color 0.3s ease',
-          marginTop: '0.5rem',
-        }}
-      >
+      <div className="font-mono text-xs uppercase tracking-wider text-[#86868B] mt-2">
         VIEW DETAILS →
       </div>
     </div>

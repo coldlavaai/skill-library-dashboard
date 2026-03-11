@@ -35,156 +35,59 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-start justify-center"
+      className="fixed inset-0 z-[200] flex items-start justify-center overflow-y-auto"
       style={{
         background: 'rgba(3,3,5,0.92)',
         backdropFilter: 'blur(16px)',
-        overflowY: 'auto',
-        WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
         padding: '3rem 1rem 4rem',
       }}
       onClick={onClose}
     >
       <div
-        className="w-full relative"
+        className="w-full relative bg-[#111111] border border-[#1a1a1a] rounded-2xl mb-8"
         style={{
           maxWidth: 820,
-          background: 'rgba(0,0,0,0.7)',
-          border: '1px solid rgba(6,182,212,0.15)',
-          backdropFilter: 'blur(8px)',
-          animation: 'fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-          marginBottom: '2rem',
+          animation: 'fadeInUp 0.4s ease-out forwards',
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Corner brackets on modal */}
-        <div style={{
-          position: 'absolute', top: 0, left: 0,
-          width: 20, height: 20,
-          borderLeft: '1px solid rgba(6,182,212,0.3)',
-          borderTop: '1px solid rgba(6,182,212,0.3)',
-          pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', bottom: 0, right: 0,
-          width: 20, height: 20,
-          borderRight: '1px solid rgba(6,182,212,0.3)',
-          borderBottom: '1px solid rgba(6,182,212,0.3)',
-          pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', top: 0, right: 0,
-          width: 20, height: 20,
-          borderRight: '1px solid rgba(6,182,212,0.15)',
-          borderTop: '1px solid rgba(6,182,212,0.15)',
-          pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', bottom: 0, left: 0,
-          width: 20, height: 20,
-          borderLeft: '1px solid rgba(6,182,212,0.15)',
-          borderBottom: '1px solid rgba(6,182,212,0.15)',
-          pointerEvents: 'none',
-        }} />
-
         {/* Header */}
-        <div
-          className="p-8 pb-6"
-          style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
-        >
+        <div className="p-8 pb-6 border-b border-[#1a1a1a]">
           {/* Close button */}
           <button
             onClick={onClose}
             aria-label="Close"
-            style={{
-              position: 'absolute',
-              top: '1.5rem',
-              right: '1.5rem',
-              background: 'transparent',
-              border: '1px solid rgba(255,255,255,0.08)',
-              color: 'rgba(255,255,255,0.3)',
-              width: 32,
-              height: 32,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.8rem',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(6,182,212,0.3)';
-              e.currentTarget.style.color = 'rgba(255,255,255,0.6)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
-              e.currentTarget.style.color = 'rgba(255,255,255,0.3)';
-            }}
+            className="absolute top-6 right-6 w-8 h-8 flex items-center justify-center border border-[#1a1a1a] rounded-lg text-[#86868B] hover:text-white hover:border-[#06B6D4] transition-all cursor-pointer font-mono text-sm bg-transparent"
           >
             ✕
           </button>
 
-          <div className="label mb-3">
-            SKILL DETAILS
-          </div>
+          <div className="label mb-3">SKILL DETAILS</div>
 
           {/* Category */}
-          <p
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.7rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              color: 'rgba(6,182,212,0.55)',
-              marginBottom: '0.85rem',
-            }}
-          >
+          <p className="font-mono text-sm uppercase tracking-wider text-[#06B6D4] mb-3">
             {skill.category.replace(/-/g, ' ').replace(/\//g, ' / ')}
           </p>
 
           {/* Title */}
-          <h2
-            style={{
-              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
-              fontWeight: 700,
-              color: '#fff',
-              letterSpacing: '-0.02em',
-              lineHeight: 1.2,
-              marginBottom: '1.75rem',
-            }}
-          >
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight" style={{ letterSpacing: '-0.02em' }}>
             {skill.name}
           </h2>
 
           {/* Metadata row */}
           <div className="flex flex-wrap items-center gap-3">
-            {/* Status */}
             <div className="investment" style={{ marginTop: 0 }}>
               <div className="dot"></div>
               <span>{skill.status.toUpperCase()}</span>
             </div>
 
-            {/* Used by */}
             {skill.usedBy.length > 0 && (
               <div className="flex flex-wrap items-center gap-2">
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.65rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em',
-                    color: 'rgba(255,255,255,0.35)',
-                  }}
-                >
+                <span className="font-mono text-xs uppercase tracking-wider text-[#86868B]">
                   USED BY
                 </span>
                 {skill.usedBy.map((agent) => (
-                  <span
-                    key={agent}
-                    className="pill-tag"
-                    style={{ fontSize: '0.65rem', padding: '0.3rem 0.6rem' }}
-                  >
+                  <span key={agent} className="pill-tag text-xs px-2 py-1">
                     {agent}
                   </span>
                 ))}
@@ -194,38 +97,15 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
 
           {/* Features */}
           {(skill.hasScripts || skill.hasReferences || skill.hasTemplates) && (
-            <div
-              className="flex gap-4 mt-5 pt-5"
-              style={{
-                borderTop: '1px solid rgba(255,255,255,0.04)',
-              }}
-            >
+            <div className="flex gap-4 mt-5 pt-5 border-t border-[#1a1a1a]">
               {skill.hasScripts && (
-                <span style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.68rem',
-                  color: 'rgba(6,182,212,0.45)',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                }}>→ SCRIPTS</span>
+                <span className="font-mono text-sm text-[#06B6D4] tracking-wider uppercase">→ SCRIPTS</span>
               )}
               {skill.hasReferences && (
-                <span style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.68rem',
-                  color: 'rgba(6,182,212,0.45)',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                }}>→ REFERENCES</span>
+                <span className="font-mono text-sm text-[#06B6D4] tracking-wider uppercase">→ REFERENCES</span>
               )}
               {skill.hasTemplates && (
-                <span style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.68rem',
-                  color: 'rgba(6,182,212,0.45)',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                }}>→ TEMPLATES</span>
+                <span className="font-mono text-sm text-[#06B6D4] tracking-wider uppercase">→ TEMPLATES</span>
               )}
             </div>
           )}
@@ -235,45 +115,15 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
         <div className="p-8 modal-content">
           {skill.skillMdContent ? (
             <>
-              <div className="label mb-5">
-                SKILL.MD
-              </div>
-              <div
-                className="skill-markdown"
-                style={{
-                  background: 'rgba(0,0,0,0.3)',
-                  border: '1px solid rgba(6,182,212,0.08)',
-                  padding: '2rem',
-                  marginBottom: '3rem',
-                  position: 'relative',
-                }}
-              >
-                {/* Corner brackets */}
-                <div style={{
-                  position: 'absolute', top: 0, left: 0,
-                  width: 10, height: 10,
-                  borderLeft: '1px solid rgba(6,182,212,0.2)',
-                  borderTop: '1px solid rgba(6,182,212,0.2)',
-                  pointerEvents: 'none',
-                }} />
-                <div style={{
-                  position: 'absolute', bottom: 0, right: 0,
-                  width: 10, height: 10,
-                  borderRight: '1px solid rgba(6,182,212,0.2)',
-                  borderBottom: '1px solid rgba(6,182,212,0.2)',
-                  pointerEvents: 'none',
-                }} />
-                <ReactMarkdown>
-                  {skill.skillMdContent}
-                </ReactMarkdown>
+              <div className="label mb-5">SKILL.MD</div>
+              <div className="skill-markdown bg-[#0a0a0c] border border-[#1a1a1a] rounded-xl p-8 mb-10">
+                <ReactMarkdown>{skill.skillMdContent}</ReactMarkdown>
               </div>
             </>
           ) : (
             <div className="arch-box p-10 text-center mb-10">
-              <div className="corner-tr"></div>
-              <div className="corner-bl"></div>
               <div className="label mb-3" style={{ justifyContent: 'center' }}>NO SKILL.MD FOUND</div>
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontStyle: 'italic', fontWeight: 300 }}>
+              <p className="text-[#86868B] italic">
                 This skill is missing its main instruction file
               </p>
             </div>
@@ -282,53 +132,16 @@ export default function SkillModal({ skill, onClose }: SkillModalProps) {
           {skill.readmeContent && (
             <>
               <div className="section-divider" style={{ margin: '2rem 0' }}></div>
-              <div className="label mb-5">
-                README.MD
-              </div>
-              <div
-                className="skill-markdown"
-                style={{
-                  background: 'rgba(0,0,0,0.3)',
-                  border: '1px solid rgba(6,182,212,0.08)',
-                  padding: '2rem',
-                  position: 'relative',
-                }}
-              >
-                <div style={{
-                  position: 'absolute', top: 0, left: 0,
-                  width: 10, height: 10,
-                  borderLeft: '1px solid rgba(6,182,212,0.2)',
-                  borderTop: '1px solid rgba(6,182,212,0.2)',
-                  pointerEvents: 'none',
-                }} />
-                <div style={{
-                  position: 'absolute', bottom: 0, right: 0,
-                  width: 10, height: 10,
-                  borderRight: '1px solid rgba(6,182,212,0.2)',
-                  borderBottom: '1px solid rgba(6,182,212,0.2)',
-                  pointerEvents: 'none',
-                }} />
-                <ReactMarkdown>
-                  {skill.readmeContent}
-                </ReactMarkdown>
+              <div className="label mb-5">README.MD</div>
+              <div className="skill-markdown bg-[#0a0a0c] border border-[#1a1a1a] rounded-xl p-8">
+                <ReactMarkdown>{skill.readmeContent}</ReactMarkdown>
               </div>
             </>
           )}
 
           {/* Close hint */}
-          <div
-            className="mt-10 pt-6 text-center"
-            style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}
-          >
-            <p
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.62rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.12em',
-                color: 'rgba(255,255,255,0.15)',
-              }}
-            >
+          <div className="mt-10 pt-6 text-center border-t border-[#1a1a1a]">
+            <p className="font-mono text-xs uppercase tracking-wider text-[#86868B]">
               ESC OR CLICK OUTSIDE TO CLOSE
             </p>
           </div>
